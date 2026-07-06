@@ -47,35 +47,72 @@
 
 //MIDDLEWARES & ROUTES HANDLERS
 
+// const express=require("express")
+
+// const app=express()
+
+//GET/users ==> It checks all the app.xx("macthing route") function 
+//GET /users => middleware chain => request handler
+
+
+
+// app.use("/",(req,res,next)=>{
+//     // res.send("Handling /routr");
+//     next()
+// })
+
+// app.get("/user",
+//     (req,res,next)=>{  //Route Handler
+//     // res.send("Route Handler 1")
+//     console.log("Handling the route user");
+//         next()
+//         // res.send("Route Handler 1")
+// }
+// (req,res,next)=>{ 
+//     // res.send("Route Handler 2")
+//     console.log("Handling the route user");
+//     next()
+// },
+// (req,res,next)=>{ 
+//     // res.send("Route Handler 3")
+//     console.log("Handling the route user");
+//     next()
+// },
+// (req,res,next)=>{ 
+//     res.send("Route Handler 4")
+//     console.log("Handling the route user");
+    
+// }
+// )
+
+// app.get("/user",
+//     (req,res,next)=>{  //Route Handler
+//     console.log("Handling the route user");
+//         res.send("Route Handler 2")
+// })
+
+// app.listen(3000,()=>{
+//     console.log("Server is successfully on port 3000....");
+    
+// })
+
+
 const express=require("express")
 
 const app=express()
 
+const {adminAuth}=require("./middlewares/auth")
 
+//Handle authorization middleware
+app.use("/admin",adminAuth)
 
-app.use("/user",[
-    (req,res,next)=>{  //Route Handler
-    // res.send("Route Handler 1")
-    console.log("Handling the route user");
-        next()
-        // res.send("Route Handler 1")
-},
-(req,res,next)=>{ 
-    // res.send("Route Handler 2")
-    console.log("Handling the route user");
-    next()
-},
-(req,res,next)=>{ 
-    // res.send("Route Handler 3")
-    console.log("Handling the route user");
-    next()
-},
-(req,res,next)=>{ 
-    res.send("Route Handler 4")
-    console.log("Handling the route user");
+app.get("/admin/getAllData",(req,res)=>{
+    //check if the request is authorized
+    // const token="xyz";
+    // const isAdminAuthorized=token=="xyz"
+    res.send("All data send")
     
-}
-])
+})
 
 app.listen(3000,()=>{
     console.log("Server is successfully on port 3000....");

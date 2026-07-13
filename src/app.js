@@ -97,24 +97,66 @@
 // })
 
 
-const express=require("express")
+// const express=require("express")
 
-const app=express()
+// const app=express()
 
-const {adminAuth}=require("./middlewares/auth")
+// const {adminAuth}=require("./middlewares/auth")
 
-//Handle authorization middleware
-app.use("/admin",adminAuth)
+// //Handle authorization middleware
+// app.use("/admin",adminAuth)
 
-app.get("/admin/getAllData",(req,res)=>{
-    //check if the request is authorized
-    // const token="xyz";
-    // const isAdminAuthorized=token=="xyz"
-    res.send("All data send")
+// app.get("/admin/getAllData",(req,res)=>{
+//     //check if the request is authorized
+//     // const token="xyz";
+//     // const isAdminAuthori zed=token=="xyz"
+//     res.send("All data send")
+    
+// })
+
+// app.listen(3000,()=>{
+//     console.log("Server is successfully on port 3000....");
+    
+// })
+
+
+//MAIN CODE--
+
+const express=require("express");
+const connectDB=require("./conifg/database")
+const app=express();
+const User=require("./models/user")
+
+
+app.post("/signup",async (req,res)=>{
+    const userObj={
+        firstName:"Akshat",
+        lastName:"Choudhary",
+        emailID:"akshatch2131@gmail.com",
+        password:"akshat@123"
+    }
+    // Creating a new instance of the User model
+    const user=new User(userObj)
+    
+    try{
+        await user.save();
+        res.send("User added successfully")
+    }
+    catch(err){
+        res.status(400).send("Error saving the user:"+err.message)
+    }
     
 })
 
-app.listen(3000,()=>{
-    console.log("Server is successfully on port 3000....");
-    
+
+connectDB()
+.then(()=>{
+    console.log("Database cnnection is successfull");
+    app.listen(3000,()=>{
+    console.log("Server is successfully listening on port 3000...");
 })
+})
+.catch(err=>{
+    console.log("Database cannot be connected!!");
+})
+
